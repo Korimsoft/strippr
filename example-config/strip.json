@@ -1,0 +1,23 @@
+{
+    "header": {
+        "title": "Example Comic Strip"
+    },
+    "footer": {
+        "author": "Korimsoft",
+        "date": "2021/06/05"
+    },
+    "frames": [
+        {
+            "src": "img/parrot.png",
+            "text": "Hello! Have you heard of Strippr?"
+        },
+        {
+            "src": "img/seagull.png",
+            "text": "Nope. Tell me more!"
+        },
+        {
+            "src": "img/parrot.png",
+            "text": "See for yourself: http://github.com/korimsoft/strippr"
+        }
+    ]
+}

@@ -1,0 +1,30 @@
+{
+  "name": "strippr",
+  "version": "1.0.0",
+  "description": "Comic strip generator - transform a simple JSON config and several source images into a comic strip",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Korimsoft/strippr.git"
+  },
+  "keywords": [
+    "korimsoft",
+    "strippr",
+    "comics",
+    "comicstrip",
+    "generator"
+  ],
+  "author": "Korimsoft",
+  "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://github.com/Korimsoft/strippr/issues"
+  },
+  "homepage": "https://github.com/Korimsoft/strippr#readme",
+  "dependencies": {
+    "gm": "^1.23.1",
+    "yargs": "^17.0.1"
+  }
+}
