@@ -1,14 +1,14 @@
 const headerCompositor = require('./header-compositor');
 const frameCompositor = require('./frame-compositor');
 const gm = require('gm');
-
+const path = require('path');
 
 class StripCompositor {
 
-    constructor(constants) {
-        this.gmState = {};
+    constructor(constants, tempDirPath) {
         this.constants = constants;
         this.offset = 0;
+        this.tempDirPath = tempDirPath;
     }
 
     background(config) {
@@ -39,20 +39,12 @@ class StripCompositor {
     }
 
     frames(frameConfigs) {
-
-        let builder = this;
-        frameConfigs.forEach(f => builder = builder.frame(f));
-
-        return builder;
-    }
-
-    frame(frameConfig) {
-
-        // Draw the frame
-        this.gmState = frameCompositor(this.gmState, frameConfig, this.constants.frame, this.offset);
-        this.offset += this.constants.frame.height + this.constants.frame.margin;
+        frameConfigs.forEach((f, i) => {
+            frameCompositor(f, path.resolve(this.tempDirPath, `frame_${i}.png`), this.constants.frame);
+        });
         return this;
     }
+   
 
     /**
      * Compose the strip footer
@@ -69,10 +61,10 @@ class StripCompositor {
 
     /**
      * 
-     * @returns Initialized gm.State
+     * @returns path to resulting image
      */
-    getResult() {
-        return this.gmState;
+    finalize() {
+        return '';
     }
 
 }

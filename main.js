@@ -11,4 +11,4 @@ const config =  JSON.parse(fs.readFileSync(argv.in));
 const constants = JSON.parse(fs.readFileSync('constants.json'));
 
 // Draw the strip
-const s = strip(config, constants).write(argv.out);
+strip(config, constants, argv.out);

@@ -1,40 +1,43 @@
+const gm = require('gm');
 
+const handleWriteError = err => err && console.error(err);
 
 const drawText = (gmStateIn, frameConfig, x, y, constants) => {
     const gmState = gmStateIn;
     return gmState;
 };
 
-const drawImage = (gmStateIn, frameConfig, x, y, constants) => {
-    const gmState = gmStateIn;
+const drawImage = (frameConfig, constants, tempFramePath) => {
 
+    const cwd = process.cwd();
 
-    //
+    // Do this in a preprocessor
+    const imagePath = frameConfig.src.replace("{workingdir}", cwd);
+
+    //Put the image to the bottom right corner
+    const gmState = gm(tempFramePath).composite(imagePath);
+    //.geometry(`+${x}+${y}`);
 
     return {
         drawText: (frameConfig, x, y) => drawText(gmState, frameConfig, x, y, constants)
     };
 };
 
-const drawBackground = (gmStateIn, x, y, width, height, color) => {
-    const gmState = gmStateIn.fill(color).drawRectangle(x, y, x+width, y+height);
-    return  { 
-        drawImage: (frameConfig, x, y, constants) => drawImage(gmState, frameConfig, x, y, constants)
+const drawBackground = (width, height, color, tempFramePath) => {
+    gm(width, height, color).write(tempFramePath, handleWriteError);
+    return {
+        drawImage: drawImage
     };
 };
 
 
-
-
 /* Single frame compositor */
-const frame = (gmState, frameConfig, constants, offset) => {
-    const x = constants.margin;
-    const y = offset;
+const frame = (frameConfig, tempFramePath, constants) => {
 
-    return drawBackground(gmState, x, y, constants.width, constants.height)
-        .drawImage(frameConfig, x, y, constants)
-        .drawText(frameConfig, x, y, constants)
-    
+    drawBackground(constants.width, constants.height, constants.bgColor, tempFramePath)
+        .drawImage(frameConfig, constants, tempFramePath)
+        .drawText(frameConfig, constants)
+        .write(tempFramePath, handleWriteError);
 }
 
 module.exports = frame;
