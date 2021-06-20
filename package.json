@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/Korimsoft/strippr#readme",
   "dependencies": {
-    "gm": "^1.23.1",
+    "jimp": "^0.16.1",
     "yargs": "^17.0.1"
   }
 }

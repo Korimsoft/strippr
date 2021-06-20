@@ -38,10 +38,16 @@ class StripCompositor {
         return this;
     }
 
-    frames(frameConfigs) {
+    async frames(frameConfigs) {
+
+        const promises = [];
+
         frameConfigs.forEach((f, i) => {
-            frameCompositor(f, path.resolve(this.tempDirPath, `frame_${i}.png`), this.constants.frame);
+            promises.push(frameCompositor(f, path.resolve(this.tempDirPath, `${i}.png`), this.constants.frame));
         });
+
+        await Promise.all(promises);
+
         return this;
     }
    

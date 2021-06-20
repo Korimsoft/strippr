@@ -1,43 +1,66 @@
 const gm = require('gm');
+const { background } = require('jimp');
+const jimp = require('jimp');
 
-const handleWriteError = err => err && console.error(err);
+/*
+* Promisify the gmState.write method for more convenient handling.
+*/
+const writeAsync = (gmState, path) => {
+    return new Promise((resolve, reject) => {
+        gmState.write(path, (err) => {
+            if(err) {
+              reject(err);
+              return;
+            } 
+            resolve();
+        })
+    });
+}
 
-const drawText = (gmStateIn, frameConfig, x, y, constants) => {
-    const gmState = gmStateIn;
-    return gmState;
-};
-
-const drawImage = (frameConfig, constants, tempFramePath) => {
-
-    const cwd = process.cwd();
-
-    // Do this in a preprocessor
-    const imagePath = frameConfig.src.replace("{workingdir}", cwd);
-
-    //Put the image to the bottom right corner
-    const gmState = gm(tempFramePath).composite(imagePath);
-    //.geometry(`+${x}+${y}`);
-
-    return {
-        drawText: (frameConfig, x, y) => drawText(gmState, frameConfig, x, y, constants)
-    };
-};
-
-const drawBackground = (width, height, color, tempFramePath) => {
-    gm(width, height, color).write(tempFramePath, handleWriteError);
-    return {
-        drawImage: drawImage
-    };
+const drawText = (frameConfig, constants, frame) => {
+    return frame;
 };
 
 
-/* Single frame compositor */
-const frame = (frameConfig, tempFramePath, constants) => {
+const calculateAlignment = (position, imageWidth, backgroundWidth) => {
+    switch(position) {
+        case 'left':
+            return 0;
+        case 'center':
+            return (backgroundWidth -imageWidth)/2;
+        case 'right':
+            return backgroundWidth - imageWidth;
+        default:
+            console.warn(`Unknown frame image position: '${position}'`);
+    }
+}
 
-    drawBackground(constants.width, constants.height, constants.bgColor, tempFramePath)
-        .drawImage(frameConfig, constants, tempFramePath)
-        .drawText(frameConfig, constants)
-        .write(tempFramePath, handleWriteError);
+const drawImage = async (frameImagePath, frameConfig, background) => {
+    
+    const image = await jimp.read(frameImagePath);
+
+    const y = background.bitmap.height - image.bitmap.height;
+    const x = calculateAlignment(frameConfig.position, image.bitmap.width, background.bitmap.width);
+
+    return background.composite(image, x, y);
+};
+
+const drawBackground = async (width, height, color) => {
+    return await new jimp(width, height, color);
+};
+
+/* 
+*   Single frame compositor
+*   Write the frame as an image.
+*/
+const frame = async (frameConfig, framePath, constants) => {
+    const imagePath = frameConfig.src.replace("{workingdir}", process.cwd());
+
+    const background  = await drawBackground(constants.width, constants.height, constants.bgColor);
+    const frame =  await drawImage(imagePath, frameConfig, background);
+    const frameWithText = await drawText(frameConfig, constants, frame);
+
+    await frameWithText.writeAsync(framePath);
 }
 
 module.exports = frame;

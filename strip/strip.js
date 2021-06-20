@@ -5,14 +5,14 @@ const path = require('path');
 
 const tempDirPath = 'strip_tmp';
 
-const strip = (config, constants, resultFilePath) => {
+const strip = async (config, constants, resultFilePath) => {
 
     if(fs.existsSync(tempDirPath)){
         fs.rmdirSync(tempDirPath, {recursive: true});
     }
     fs.mkdirSync(tempDirPath);
 
-    new StripCompositor(constants, tempDirPath).frames(config.frames);
+    await new StripCompositor(constants, tempDirPath).frames(config.frames);
 
 }
 
