@@ -1,24 +1,15 @@
-const gm = require('gm');
-const { background } = require('jimp');
-const jimp = require('jimp');
+const Jimp = require('jimp');
 
-/*
-* Promisify the gmState.write method for more convenient handling.
-*/
-const writeAsync = (gmState, path) => {
-    return new Promise((resolve, reject) => {
-        gmState.write(path, (err) => {
-            if(err) {
-              reject(err);
-              return;
-            } 
-            resolve();
-        })
-    });
-}
+const drawText = async (frameConfig, constants, frame) => {
+    
+    const font = await Jimp.loadFont('resources/fonts/typewriter/typewriter-b-64.fnt');
+    const x = constants.textPadding;
+    const y = constants.textPadding;
+    const maxWidth = constants.width - constants.textPadding;
+    const maxHeight = constants.height - constants.textPadding;
 
-const drawText = (frameConfig, constants, frame) => {
-    return frame;
+    return frame.print(font, x, y, frameConfig.text, maxWidth, maxHeight);
+
 };
 
 
@@ -37,7 +28,7 @@ const calculateAlignment = (position, imageWidth, backgroundWidth) => {
 
 const drawImage = async (frameImagePath, frameConfig, background) => {
     
-    const image = await jimp.read(frameImagePath);
+    const image = await Jimp.read(frameImagePath);
 
     const y = background.bitmap.height - image.bitmap.height;
     const x = calculateAlignment(frameConfig.position, image.bitmap.width, background.bitmap.width);
@@ -45,8 +36,8 @@ const drawImage = async (frameImagePath, frameConfig, background) => {
     return background.composite(image, x, y);
 };
 
-const drawBackground = async (width, height, color) => {
-    return await new jimp(width, height, color);
+const prepareBackground = (width, height, color) => {
+    return new Jimp(width, height, color);
 };
 
 /* 
@@ -54,9 +45,11 @@ const drawBackground = async (width, height, color) => {
 *   Write the frame as an image.
 */
 const frame = async (frameConfig, framePath, constants) => {
+
+    // todo: Move this one level up and merge it in the frame config 
     const imagePath = frameConfig.src.replace("{workingdir}", process.cwd());
 
-    const background  = await drawBackground(constants.width, constants.height, constants.bgColor);
+    const background  =  prepareBackground(constants.width, constants.height, constants.bgColor);
     const frame =  await drawImage(imagePath, frameConfig, background);
     const frameWithText = await drawText(frameConfig, constants, frame);
 

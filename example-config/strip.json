@@ -10,7 +10,7 @@
         {
             "src": "{workingdir}/example-config/img/parrot.png",
             "position": "left",
-            "text": "Hello! Have you heard of Strippr?"
+            "text": "Příliš žluťoučký kůň má úd: Hello! Have you heard of Strippr?"
         },
         {
             "src": "{workingdir}/example-config/img/seagull.png",
@@ -20,7 +20,7 @@
         {
             "src": "{workingdir}/example-config/img/parrot.png",
             "position": "left",
-            "text": "See for yourself: https://github.com/korimsoft/strippr"
+            "text": "See for yourself: https://github.com/ korimsoft/strippr"
         }
     ]
 }
