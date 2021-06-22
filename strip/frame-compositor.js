@@ -2,11 +2,11 @@ const Jimp = require('jimp');
 
 const drawText = async (frameConfig, constants, frame) => {
     
-    const font = await Jimp.loadFont('resources/fonts/typewriter/typewriter-b-64.fnt');
-    const x = constants.textPadding;
-    const y = constants.textPadding;
-    const maxWidth = constants.width - constants.textPadding;
-    const maxHeight = constants.height - constants.textPadding;
+    const font = await Jimp.loadFont(constants.font);
+    const x = constants.padding;
+    const y = constants.padding;
+    const maxWidth = constants.width - constants.padding;
+    const maxHeight = constants.height - constants.padding;
 
     return frame.print(font, x, y, frameConfig.text, maxWidth, maxHeight);
 

@@ -1,5 +1,6 @@
 const headerCompositor = require('./header-compositor');
 const frameCompositor = require('./frame-compositor');
+const footerCompositor = require('./footer-compositor');
 const path = require('path');
 
 class StripCompositor {
@@ -11,14 +12,14 @@ class StripCompositor {
     }
 
     background(config) {
-
-        
         
     }
 
-    header(headerConfig) {
+    async header(headerConfig) {
+        const headerPath = path.resolve(this.tempDirPath, 'header.png');
+        await headerCompositor(headerConfig, headerPath, this.constants.header);
 
-        
+        return this;
     }
 
     async frames(frameConfigs) {
@@ -26,7 +27,8 @@ class StripCompositor {
         const promises = [];
 
         frameConfigs.forEach((f, i) => {
-            promises.push(frameCompositor(f, path.resolve(this.tempDirPath, `${i}.png`), this.constants.frame));
+            const framePath = path.resolve(this.tempDirPath, `${i}.png`)
+            promises.push(frameCompositor(f, framePath, this.constants.frame));
         });
 
         await Promise.all(promises);
@@ -40,12 +42,9 @@ class StripCompositor {
      * @param {*} footerConfig 
      * @returns 
      */
-    footer(footerConfig) {
-
-        if (footerConfig) {
-            this.offset += this.constants.footerHeight;
-        }
-        return this;
+    async footer(footerConfig) {
+        const footerPath = path.resolve(this.tempDirPath, 'footer.png');
+        await footerCompositor(footerConfig, footerPath, this.constants.footer);
     }
 
     /**
@@ -53,6 +52,10 @@ class StripCompositor {
      * @returns path to resulting image
      */
     finalize() {
+
+
+
+
         return '';
     }
 

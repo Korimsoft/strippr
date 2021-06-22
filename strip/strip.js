@@ -12,7 +12,10 @@ const strip = async (config, constants, resultFilePath) => {
     }
     fs.mkdirSync(tempDirPath);
 
-    await new StripCompositor(constants, tempDirPath).frames(config.frames);
+    let compositor = new StripCompositor(constants, tempDirPath);
+        compositor = await compositor.frames(config.frames);
+        compositor = await compositor.header(config.header);
+        compositor = await compositor.footer(config.footer);
 
 }
 

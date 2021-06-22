@@ -1,3 +1,6 @@
+# Generated and temporary directories
+strip_tmp
+
 # Logs
 logs
 *.log
