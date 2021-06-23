@@ -45,7 +45,6 @@ const prepareBackground = (width, height, color) => {
 *   Write the frame as an image.
 */
 const frame = async (frameConfig, framePath, constants) => {
-
     // todo: Move this one level up and merge it in the frame config 
     const imagePath = frameConfig.src.replace("{workingdir}", process.cwd());
 
@@ -54,6 +53,8 @@ const frame = async (frameConfig, framePath, constants) => {
     const frameWithText = await drawText(frameConfig, constants, frame);
 
     await frameWithText.writeAsync(framePath);
+
+    return framePath;
 }
 
 module.exports = frame;

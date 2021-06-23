@@ -23,6 +23,8 @@ const footer = async (config, path, constants,) => {
             }, 
             constants.width, constants.height)
         .writeAsync(path);
+
+    return path;
 }
 
 module.exports = footer;

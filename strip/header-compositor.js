@@ -14,6 +14,8 @@ const compose = async (config, path, constants) => {
         alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE,
         text: title
     }, maxWidth, maxHeight).writeAsync(path);
+
+    return path;
 };
 
 module.exports = compose;

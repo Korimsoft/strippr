@@ -7,31 +7,27 @@ class StripCompositor {
 
     constructor(constants, tempDirPath) {
         this.constants = constants;
-        this.offset = 0;
         this.tempDirPath = tempDirPath;
-    }
-
-    background(config) {
-        
     }
 
     async header(headerConfig) {
         const headerPath = path.resolve(this.tempDirPath, 'header.png');
-        await headerCompositor(headerConfig, headerPath, this.constants.header);
+        this.headerPath = await headerCompositor(headerConfig, headerPath, this.constants.header);
 
         return this;
     }
 
     async frames(frameConfigs) {
-
-        const promises = [];
+        this.framePaths = [];
+        const runningFrameCompositions = [];
 
         frameConfigs.forEach((f, i) => {
             const framePath = path.resolve(this.tempDirPath, `${i}.png`)
-            promises.push(frameCompositor(f, framePath, this.constants.frame));
+            this.framePaths.push(framePath);
+            runningFrameCompositions.push(frameCompositor(f, framePath, this.constants.frame));
         });
 
-        await Promise.all(promises);
+        await Promise.all(runningFrameCompositions);
 
         return this;
     }
@@ -44,19 +40,17 @@ class StripCompositor {
      */
     async footer(footerConfig) {
         const footerPath = path.resolve(this.tempDirPath, 'footer.png');
-        await footerCompositor(footerConfig, footerPath, this.constants.footer);
+        this.footerPath = await footerCompositor(footerConfig, footerPath, this.constants.footer);
+
+        return this;
     }
 
     /**
      * 
      * @returns path to resulting image
      */
-    finalize() {
-
-
-
-
-        return '';
+    export(exporter, outputPath) {
+        return exporter(this.headerPath, this.framePaths, this.footerPath, this.constants, outputPath);
     }
 
 }

@@ -1,4 +1,5 @@
 const StripCompositor = require('./strip-compositor');
+const stripExporter = require('./exporters/strip-exporter');
 
 const fs = require('fs');
 const path = require('path');
@@ -16,6 +17,10 @@ const strip = async (config, constants, resultFilePath) => {
         compositor = await compositor.frames(config.frames);
         compositor = await compositor.header(config.header);
         compositor = await compositor.footer(config.footer);
+
+
+    await compositor.export(stripExporter, resultFilePath);
+    //await compositor.export(singleFrameExporter);
 
 }
 
