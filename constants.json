@@ -1,12 +1,13 @@
 {
     "strip": {
-        "bgColor": "#000",
+        "bgColor": "#000000",
         "border": 50
     }, 
     "header": {
         "width": 1000,
         "height": 100,
         "padding": 20,
+        "bgColor": "#000000",
         "font":"resources/fonts/typewriter/typewriter-w-64.fnt"
     },
     "frame": {
@@ -14,12 +15,13 @@
         "height": 1000,
         "padding": 50,
         "font": "resources/fonts/typewriter/typewriter-b-64.fnt",
-        "bgColor": "#fff"
+        "bgColor": "#ffffff"
     },
      "footer": {
          "width": 1000,
          "height": 100,
          "padding": 20,
-         "font":"resources/fonts/typewriter/typewriter-w-32.fnt"
+         "bgColor": "#000000",
+         "font":"resources/fonts/typewriter/typewriter-w-48.fnt"
      }
 }

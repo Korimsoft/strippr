@@ -2,10 +2,6 @@
     "header": {
         "title": "Example Comic Strip"
     },
-    "footer": {
-        "author": "Korimsoft",
-        "date": "2021-06-22"
-    },
     "frames": [
         {
             "src": "{workingdir}/example-config/img/parrot.png",
@@ -22,5 +18,9 @@
             "position": "left",
             "text": "See for yourself: https://github.com/ korimsoft/strippr"
         }
-    ]
+    ],
+    "footer": {
+        "author": "Made by Korimsoft",
+        "date": "2021-06-22"
+    }
 }

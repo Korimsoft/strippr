@@ -7,7 +7,7 @@ const calculateWidth = (constants) => {
 
 const calculateHeight = (constants, frameCount) => {
     return constants.header.height + 
-        (2+frameCount)*constants.strip.border + 
+        (3+frameCount)*constants.strip.border + 
         frameCount*constants.frame.height +
         constants.footer.height;
 }
@@ -19,7 +19,22 @@ const stripExporter = async (headerPath, framePaths, footerPath, constants, outp
 
     const width = calculateWidth(constants);
     const height = calculateHeight(constants, framePaths.length);
-    const result = new Jimp(width, height, constants.strip.bgcolor);
+    let result = new Jimp(width, height, constants.strip.bgColor);
+
+    const border = constants.strip.border;
+    let x = border;
+    let y = border;
+
+    result = result.composite(header, x, y);
+    y += (border + header.bitmap.height);
+    
+    frames.forEach(f => {
+        
+        result = result.composite(f, x, y);
+        y +=(border + f.bitmap.height);
+    });
+
+    result = result.composite(footer, x, y)
 
     await result.writeAsync(output);
 }

@@ -7,7 +7,7 @@ const Jimp = require('jimp');
 const footer = async (config, path, constants,) => {
     const font = await Jimp.loadFont(constants.font);
 
-    await new Jimp(constants.width, constants.height, constants.bgcolor)
+    await new Jimp(constants.width, constants.height, constants.bgColor)
         .print(font, constants.padding, 0,
             {
                 text: config.author,
