@@ -1,4 +1,5 @@
 import Jimp from 'jimp';
+import { Exporter } from './exporter';
 
 
 const calculateWidth = (constants) => {
@@ -12,14 +13,11 @@ const calculateHeight = (constants, frameCount: number) => {
         constants.footer.height;
 }
 
-export const stripExporter = async (headerPath : string, 
-        framePaths : string[], footerPath: string, constants, output) => {
-    const header = await Jimp.read(headerPath);
-    const frames = await Promise.all(framePaths.map(fp => Jimp.read(fp)));
-    const footer = await Jimp.read(footerPath);
+export const stripExporter : Exporter = async (header: Jimp, 
+        frames : Jimp[], footer: Jimp, constants, output) => {
 
     const width = calculateWidth(constants);
-    const height = calculateHeight(constants, framePaths.length);
+    const height = calculateHeight(constants, frames.length);
     let result = new Jimp(width, height, constants.strip.bgColor);
 
     const border = constants.strip.border;

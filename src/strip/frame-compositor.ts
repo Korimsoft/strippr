@@ -44,7 +44,7 @@ const prepareBackground = (width, height, color) => {
 *   Single frame compositor
 *   Write the frame as an image.
 */
-export const compose = async (frameConfig, framePath, constants) => {
+export const compose = async (frameConfig, constants) : Promise<Jimp> => {
     // todo: Move this one level up and merge it in the frame config 
     const imagePath = frameConfig.src.replace("{workingdir}", process.cwd());
 
@@ -52,7 +52,5 @@ export const compose = async (frameConfig, framePath, constants) => {
     const frame =  await drawImage(imagePath, frameConfig, background);
     const frameWithText = await drawText(frameConfig, constants, frame);
 
-    await frameWithText.writeAsync(framePath);
-
-    return framePath;
+    return frameWithText;
 }

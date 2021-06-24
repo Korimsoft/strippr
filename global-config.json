@@ -14,8 +14,8 @@
         "width": 1000,
         "height": 1000,
         "padding": 50,
-        "font": "resources/fonts/typewriter/typewriter-b-64.fnt",
-        "bgColor": "#ffffff"
+        "bgColor": "#ffffff",
+        "font": "resources/fonts/typewriter/typewriter-b-64.fnt"
     },
      "footer": {
          "width": 1000,
