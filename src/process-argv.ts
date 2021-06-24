@@ -1,11 +1,11 @@
-const yargs = require('yargs');
+import yargs from 'yargs';
 
 /**
  * Parse the argv and return an object.
  * @param {*} argv 
  * @returns an object representing the parsed argv.
  */
-const processArgv = (argv) => {
+export const processArgv = async (argv: string[]) => {
 
     return yargs(argv.slice(2))
     .option('i', {
@@ -19,5 +19,3 @@ const processArgv = (argv) => {
     })
     .argv;
 }
-
-module.exports = processArgv;

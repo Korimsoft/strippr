@@ -1,10 +1,9 @@
-const Jimp = require('jimp');
-
+import Jimp from 'jimp';
 
 /* 
     Footer compositor - export footer to the temporary path
 */
-const footer = async (config, path, constants,) => {
+export const compose = async (config, path: string, constants,) => {
     const font = await Jimp.loadFont(constants.font);
 
     await new Jimp(constants.width, constants.height, constants.bgColor)
@@ -26,5 +25,3 @@ const footer = async (config, path, constants,) => {
 
     return path;
 }
-
-module.exports = footer;

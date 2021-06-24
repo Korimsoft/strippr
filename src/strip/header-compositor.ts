@@ -1,7 +1,7 @@
-const Jimp = require('jimp');
+import Jimp from 'jimp';
 
 /* Header compositor */
-const compose = async (config, path, constants) => {
+export const compose = async (config, path, constants) => {
     const font = await Jimp.loadFont(constants.font);
     const title = config.title;
 
@@ -17,5 +17,3 @@ const compose = async (config, path, constants) => {
 
     return path;
 };
-
-module.exports = compose;

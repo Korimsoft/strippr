@@ -1,12 +1,12 @@
-const StripCompositor = require('./strip-compositor');
-const stripExporter = require('./exporters/strip-exporter');
+import { StripCompositor } from './strip-compositor';
+import { stripExporter}  from './exporters/strip-exporter';
 
 const fs = require('fs');
 const path = require('path');
 
 const tempDirPath = 'strip_tmp';
 
-const strip = async (config, constants, resultFilePath) => {
+export const strip = async (config, constants, resultFilePath: string) => {
 
     if(fs.existsSync(tempDirPath)){
         fs.rmdirSync(tempDirPath, {recursive: true});
@@ -23,5 +23,3 @@ const strip = async (config, constants, resultFilePath) => {
     //await compositor.export(singleFrameExporter);
 
 }
-
-module.exports=strip;

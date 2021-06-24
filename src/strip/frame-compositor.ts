@@ -1,4 +1,4 @@
-const Jimp = require('jimp');
+import Jimp from 'jimp';
 
 const drawText = async (frameConfig, constants, frame) => {
     
@@ -44,7 +44,7 @@ const prepareBackground = (width, height, color) => {
 *   Single frame compositor
 *   Write the frame as an image.
 */
-const frame = async (frameConfig, framePath, constants) => {
+export const compose = async (frameConfig, framePath, constants) => {
     // todo: Move this one level up and merge it in the frame config 
     const imagePath = frameConfig.src.replace("{workingdir}", process.cwd());
 
@@ -56,5 +56,3 @@ const frame = async (frameConfig, framePath, constants) => {
 
     return framePath;
 }
-
-module.exports = frame;

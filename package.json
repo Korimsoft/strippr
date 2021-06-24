@@ -2,13 +2,14 @@
   "name": "strippr",
   "version": "1.0.0",
   "description": "Comic strip generator - transform a simple JSON config and several source images into a comic strip",
-  "main": "main.js",
+  "main": "src/main.js",
   "scripts": {
+    "build": "npx tsc --project ./",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Korimsoft/strippr.git"
+    "url": "https://github.com/Korimsoft/strippr.git"
   },
   "keywords": [
     "korimsoft",
@@ -28,6 +29,9 @@
     "yargs": "^17.0.1"
   },
   "devDependencies": {
+    "@types/jimp": "^0.2.28",
+    "@types/node": "^15.12.4",
+    "@types/yargs": "^17.0.0",
     "ts-node": "^10.0.0",
     "typescript": "^4.3.4"
   }

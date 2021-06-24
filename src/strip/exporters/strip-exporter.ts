@@ -1,18 +1,19 @@
-const Jimp = require('jimp');
+import Jimp from 'jimp';
 
 
 const calculateWidth = (constants) => {
     return constants.header.width + 2*constants.strip.border;
 }
 
-const calculateHeight = (constants, frameCount) => {
+const calculateHeight = (constants, frameCount: number) => {
     return constants.header.height + 
         (3+frameCount)*constants.strip.border + 
         frameCount*constants.frame.height +
         constants.footer.height;
 }
 
-const stripExporter = async (headerPath, framePaths, footerPath, constants, output) => {
+export const stripExporter = async (headerPath : string, 
+        framePaths : string[], footerPath: string, constants, output) => {
     const header = await Jimp.read(headerPath);
     const frames = await Promise.all(framePaths.map(fp => Jimp.read(fp)));
     const footer = await Jimp.read(footerPath);
@@ -38,5 +39,3 @@ const stripExporter = async (headerPath, framePaths, footerPath, constants, outp
 
     await result.writeAsync(output);
 }
-
-module.exports = stripExporter;
