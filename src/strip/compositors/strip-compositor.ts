@@ -2,6 +2,7 @@ import { composite as headerCompositor } from './header-compositor'; './header-c
 import { compose as frameCompositor } from './frame-compositor';
 import { composite as footerCompositor } from './footer-compositor';
 import Jimp from 'jimp/*';
+import { Exporter } from '../exporters/exporter';
 
 export class StripCompositor {
     
@@ -34,11 +35,10 @@ export class StripCompositor {
  
     public async compositeFooter(footerConfig) {
         this.footer = await footerCompositor(footerConfig, this.constants.footer);
-
         return this;
     }
 
-    public export(exporter, outputPath: string): string {
-        return exporter(this.header, this.frames, this.footer, this.constants, outputPath);
+    public export(exporter: Exporter, outPath: string): string {
+        return exporter.export(this.header, this.frames, this.footer, this.constants, outPath);
     }
 }

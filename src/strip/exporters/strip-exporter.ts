@@ -1,39 +1,42 @@
 import Jimp from 'jimp';
 import { Exporter } from './exporter';
 
+export class StripExporter implements Exporter {
 
-const calculateWidth = (constants) => {
-    return constants.header.width + 2*constants.strip.border;
-}
 
-const calculateHeight = (constants, frameCount: number) => {
-    return constants.header.height + 
-        (3+frameCount)*constants.strip.border + 
-        frameCount*constants.frame.height +
-        constants.footer.height;
-}
+    private calculateWidth = (constants) => {
+        return constants.header.width + 2 * constants.strip.border;
+    }
 
-export const stripExporter : Exporter = async (header: Jimp, 
-        frames : Jimp[], footer: Jimp, constants, output) => {
+    private calculateHeight = (constants, frameCount: number) => {
+        return constants.header.height +
+            (3 + frameCount) * constants.strip.border +
+            frameCount * constants.frame.height +
+            constants.footer.height;
+    }
 
-    const width = calculateWidth(constants);
-    const height = calculateHeight(constants, frames.length);
-    let result = new Jimp(width, height, constants.strip.bgColor);
+    public async export(header: Jimp,
+        frames: Jimp[], footer: Jimp, constants, output: string) {
 
-    const border = constants.strip.border;
-    let x = border;
-    let y = border;
+        const width = this.calculateWidth(constants);
+        const height = this.calculateHeight(constants, frames.length);
+        let result = new Jimp(width, height, constants.strip.bgColor);
 
-    result = result.composite(header, x, y);
-    y += (border + header.bitmap.height);
-    
-    frames.forEach(f => {
-        
-        result = result.composite(f, x, y);
-        y +=(border + f.bitmap.height);
-    });
+        const border = constants.strip.border;
+        let x = border;
+        let y = border;
 
-    result = result.composite(footer, x, y)
+        result = result.composite(header, x, y);
+        y += (border + header.bitmap.height);
 
-    await result.writeAsync(output);
+        frames.forEach(f => {
+
+            result = result.composite(f, x, y);
+            y += (border + f.bitmap.height);
+        });
+
+        result = result.composite(footer, x, y)
+
+        await result.writeAsync(output);
+    }
 }
