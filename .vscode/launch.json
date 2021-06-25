@@ -13,7 +13,7 @@
             ],
             "preLaunchTask": "tsc: build - tsconfig.json",
             "program": "${workspaceFolder}/dist/main.js",
-            "args": ["-i", "example/strip.json", "-o", "ahoj.png"]
+            "args": ["-i", "example/strip.json", "-o", "out/ahoj.png"]
         }
     ]
 }
