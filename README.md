@@ -1,7 +1,10 @@
 # Strippr
-Comic strip composer - take source images and compose them into a comic strip with easy JSON configuration.
+Comic strip compositor - take source images and composite them into a comic strip with an easy JSON configuration.
+
+Example of usage
+
+```
+strippr -in example/strip.json -out example.png
+```
 
 
-## Prerequisites
-
-Graphicsmagick installed

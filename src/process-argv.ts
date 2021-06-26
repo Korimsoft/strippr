@@ -8,14 +8,14 @@ import yargs from 'yargs';
 export const processArgv = async (argv: string[]) => {
 
     return yargs(argv.slice(2))
-    .option('i', {
-        alias:'in',
+    .option('in', {
+        alias:'i',
         demandOption:true,
-        describe: 'Input configuration file'
-    }).option('o', {
-        alias:'out',
+        describe: 'Input configuration file path'
+    }).option('out', {
+        alias:'o',
         demandOption: true,
-        describe: 'Output directory'
+        describe: 'Output file path.'
     })
     .argv;
 }
