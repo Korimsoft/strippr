@@ -9,12 +9,12 @@ export const processArgv = async (argv: string[]) => {
 
     return yargs(argv.slice(2))
     .option('in', {
-        alias:'i',
-        demandOption:true,
+        alias:'in',
+        type: 'string',
         describe: 'Input configuration file path'
     }).option('out', {
-        alias:'o',
-        demandOption: true,
+        alias:'out',
+        type: 'string',
         describe: 'Output file path.'
     })
     .argv;

@@ -4,7 +4,7 @@ Comic strip compositor - take source images and composite them into a comic stri
 Example of usage
 
 ```
-strippr -in example/strip.json -out example.png
+strippr --in example/strip.json --out example.png
 ```
 
 

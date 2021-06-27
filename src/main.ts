@@ -3,14 +3,22 @@
 import { processArgv } from './process-argv';
 import * as fs from 'fs';
 import { strip } from './strip/strip';
+import { ConfigPreprocessor } from './config/config-preprocessor';
+import path from 'path';
 
-processArgv(process.argv).then(argv => {
-    const stripScriptPath = argv.in as string;
+const GLOBAL_CONFIG_PATH = path.resolve(__dirname, 'resources', 'config', 'global-config.json');
+
+
+processArgv(process.argv).then(async argv => {
+    const stripConfigPath = argv.in as string;
+
+    const configPreprocessor: ConfigPreprocessor = new ConfigPreprocessor(GLOBAL_CONFIG_PATH);
+    const globalConfig =  await configPreprocessor.preprocessConfig(stripConfigPath);
     
-    const stripScript =  JSON.parse(fs.readFileSync(stripScriptPath).toString());
-    const config = JSON.parse(fs.readFileSync('global-config.json').toString());
+    const stripConfig =  JSON.parse(fs.readFileSync(stripConfigPath).toString());
+    //const config = JSON.parse(fs.readFileSync('config/global-config.json').toString());
 
     // Draw the strip
-    strip(stripScript, config, argv.out as string);
+    strip(stripConfig, globalConfig, argv.out as string);
 });
 
