@@ -32,7 +32,6 @@ function copyConfig() {
     return src(paths.config.src).pipe(dest(paths.config.dest));
 }
 
-
 function copyFonts() {
     return src(paths.fonts.src).pipe(dest(paths.fonts.dest));
 }

@@ -10,13 +10,13 @@
         "bgColor": "#000000",
         "font":"resources/fonts/typewriter/typewriter-w-64.fnt"
     },
-    "frame": {
+    "frames": [{
         "width": 1000,
         "height": 1000,
         "padding": 50,
         "bgColor": "#ffffff",
         "font": "resources/fonts/typewriter/typewriter-b-64.fnt"
-    },
+    }],
      "footer": {
          "width": 1000,
          "height": 100,

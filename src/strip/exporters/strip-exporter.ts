@@ -1,28 +1,28 @@
 import Jimp from 'jimp';
+import { Config } from '../../config/model/strip-config';
 import { Exporter } from './exporter';
 
 export class StripExporter implements Exporter {
 
 
-    private calculateWidth = (constants) => {
-        return constants.header.width + 2 * constants.strip.border;
+    private calculateWidth = (config: Config) => {
+        return config.header.width + 2 * config.strip.border;
     }
 
-    private calculateHeight = (constants, frameCount: number) => {
-        return constants.header.height +
-            (3 + frameCount) * constants.strip.border +
-            frameCount * constants.frame.height +
-            constants.footer.height;
+    private calculateHeight = (config: Config, frameCount: number) => {
+        return config.header.height +
+            (3 + frameCount) * config.strip.border +
+            frameCount * config.frames[0].height +
+            config.footer.height;
     }
 
-    public async export(header: Jimp,
-        frames: Jimp[], footer: Jimp, constants, output: string) {
+    public async export(header: Jimp, frames: Jimp[], footer: Jimp, config: Config, output: string) {
 
-        const width = this.calculateWidth(constants);
-        const height = this.calculateHeight(constants, frames.length);
-        let result = new Jimp(width, height, constants.strip.bgColor);
+        const width = this.calculateWidth(config);
+        const height = this.calculateHeight(config, frames.length);
+        let result = new Jimp(width, height, config.strip.bgColor);
 
-        const border = constants.strip.border;
+        const border = config.strip.border;
         let x = border;
         let y = border;
 
@@ -30,7 +30,6 @@ export class StripExporter implements Exporter {
         y += (border + header.bitmap.height);
 
         frames.forEach(f => {
-
             result = result.composite(f, x, y);
             y += (border + f.bitmap.height);
         });

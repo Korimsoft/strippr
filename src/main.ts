@@ -13,12 +13,9 @@ processArgv(process.argv).then(async argv => {
     const stripConfigPath = argv.in as string;
 
     const configPreprocessor: ConfigPreprocessor = new ConfigPreprocessor(GLOBAL_CONFIG_PATH);
-    const globalConfig =  await configPreprocessor.preprocessConfig(stripConfigPath);
+    const stripConfig =  await configPreprocessor.preprocessConfig(stripConfigPath);    
     
-    const stripConfig =  JSON.parse(fs.readFileSync(stripConfigPath).toString());
-    //const config = JSON.parse(fs.readFileSync('config/global-config.json').toString());
-
     // Draw the strip
-    strip(stripConfig, globalConfig, argv.out as string);
+    strip(stripConfig, argv.out as string);
 });
 

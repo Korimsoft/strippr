@@ -1,44 +1,34 @@
-import { composite as headerCompositor } from './header-compositor'; './header-compositor';
-import { compose as frameCompositor } from './frame-compositor';
-import { composite as footerCompositor } from './footer-compositor';
+import { composite as compositeHeader } from './header-compositor'; './header-compositor';
+import { composite as compositeFrame } from './frame-compositor';
+import { composite as compositeFooter } from './footer-compositor';
 import Jimp from 'jimp/*';
 import { Exporter } from '../exporters/exporter';
+import { Config } from '../../config/model/strip-config';
+import { FrameConfig } from '../../config/model/frame-config';
 
 export class StripCompositor {
-    
+        
     private header: Jimp;
     private frames: Jimp[] = [];
     private footer: Jimp;
 
-    constructor(private constants: any) { }
+    constructor(private config: Config) { }
 
-    public async compositeHeader(headerConfig): Promise<StripCompositor> {
-        this.header = await headerCompositor(headerConfig, this.constants.header);
-        
+    public async composite(): Promise<StripCompositor> {
+        this.header = await compositeHeader(this.config.header);
+        this.frames = await this.compositeFrames(this.config.frames);
+        this.footer = await compositeFooter(this.config.footer);
+
         return this;
     }
 
-    public async compositeFrames(frameConfigs) {
-        const runningFrameCompositions: Promise<void>[] = [];
-
-        frameConfigs.forEach((f, i: number) => {
-            runningFrameCompositions.push((async () => {
-                const frame = await frameCompositor(f, this.constants.frame);
-                this.frames.push(frame);
-            })());
-        });
-
-        await Promise.all(runningFrameCompositions);
-
-        return this;
+    private async compositeFrames(frameConfigs: FrameConfig[]): Promise<Jimp[]> {
+        const runningFrameCompositions: Promise<Jimp>[] = frameConfigs.map(f  => compositeFrame(f));
+            
+        return await Promise.all(runningFrameCompositions);
     }
  
-    public async compositeFooter(footerConfig) {
-        this.footer = await footerCompositor(footerConfig, this.constants.footer);
-        return this;
-    }
-
     public export(exporter: Exporter, outPath: string): string {
-        return exporter.export(this.header, this.frames, this.footer, this.constants, outPath);
+        return exporter.export(this.header, this.frames, this.footer, this.config, outPath);
     }
 }

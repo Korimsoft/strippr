@@ -1,42 +1,40 @@
 import Jimp from 'jimp';
+import { FrameConfig, Position } from '../../config/model/frame-config';
 
-const drawText = async (frameConfig, constants, frame) => {
-    
-    const font = await Jimp.loadFont(constants.font);
-    const x = constants.padding;
-    const y = constants.padding;
-    const maxWidth = constants.width - constants.padding;
-    const maxHeight = constants.height - constants.padding;
+const drawText = async (config: FrameConfig, frame: Jimp) => {  
+    const font = await Jimp.loadFont(config.font);
+    const x = config.padding;
+    const y = config.padding;
+    const maxWidth = config.width - config.padding;
+    const maxHeight = config.height - config.padding;
 
-    return frame.print(font, x, y, frameConfig.text, maxWidth, maxHeight);
-
+    return frame.print(font, x, y, config.text, maxWidth, maxHeight);
 };
 
 
-const calculateAlignment = (position, imageWidth, backgroundWidth) => {
+const calculateAlignment = (position: Position, imageWidth: number, backgroundWidth: number) => {
     switch(position) {
-        case 'left':
+        case Position.left:
             return 0;
-        case 'center':
+        case Position.center:
             return (backgroundWidth -imageWidth)/2;
-        case 'right':
+        case Position.right:
             return backgroundWidth - imageWidth;
         default:
             console.warn(`Unknown frame image position: '${position}'`);
     }
 }
 
-const drawImage = async (frameImagePath, frameConfig, background) => {
-    
-    const image = await Jimp.read(frameImagePath);
+const drawImage = async (config: FrameConfig, background: Jimp) => {
+    const image = await Jimp.read(config.src);
 
     const y = background.bitmap.height - image.bitmap.height;
-    const x = calculateAlignment(frameConfig.position, image.bitmap.width, background.bitmap.width);
+    const x = calculateAlignment(config.position, image.bitmap.width, background.bitmap.width);
 
     return background.composite(image, x, y);
 };
 
-const prepareBackground = (width, height, color) => {
+const prepareBackground = (width: number, height: number, color: string) => {
     return new Jimp(width, height, color);
 };
 
@@ -44,13 +42,10 @@ const prepareBackground = (width, height, color) => {
 *   Single frame compositor
 *   Write the frame as an image.
 */
-export const compose = async (frameConfig, constants) : Promise<Jimp> => {
-    // todo: Move this one level up and merge it in the frame config 
-    const imagePath = frameConfig.src.replace("{workingdir}", process.cwd());
-
-    const background  =  prepareBackground(constants.width, constants.height, constants.bgColor);
-    const frame =  await drawImage(imagePath, frameConfig, background);
-    const frameWithText = await drawText(frameConfig, constants, frame);
+export const composite = async (config: FrameConfig) : Promise<Jimp> => {
+    const background  =  prepareBackground(config.width, config.height, config.bgColor);
+    const frame =  await drawImage(config, background);
+    const frameWithText = await drawText(config, frame);
 
     return frameWithText;
 }

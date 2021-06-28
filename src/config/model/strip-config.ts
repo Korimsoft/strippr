@@ -7,13 +7,13 @@ import { HeaderConfig } from './header-config';
  */
 export interface StripConfig {
     bgColor: string;
-    border: string;
+    border: number;
     scaleTo?: number;
 }
 
 export interface Config {
     strip: StripConfig;
     header: HeaderConfig;
-    frame: FrameConfig[];
+    frames: FrameConfig[];
     footer: FooterConfig;
 }

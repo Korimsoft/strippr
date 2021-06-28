@@ -1,10 +1,11 @@
 import Jimp from 'jimp/*';
 import { Exporter } from './exporter';
 import path from 'path';
+import { Config } from '../../config/model/strip-config';
 
 export class SingleFrameExporter implements Exporter {
 
-    public async export(header: Jimp, frames: Jimp[], footer: Jimp, constants: any, outPath: string) {
+    public async export(_header: Jimp, frames: Jimp[], _footer: Jimp, _config: Config, outPath: string) {
         const pendingExports: Promise<void>[] = [];
         frames.forEach((frame, index) => {
             const exportPath = this.transformPath(outPath, index);
@@ -14,7 +15,7 @@ export class SingleFrameExporter implements Exporter {
         await Promise.all(pendingExports);
     }
 
-    /**
+/**
  * Transforms the output path of a frame so that there are no name conflicts,
  * for example /my/output/file.png => /my/ouput/file-1.png
  * @param outPath 
