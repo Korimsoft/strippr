@@ -1,7 +1,11 @@
 {
     "strip": {
         "bgColor": "#000000",
-        "border": 50
+        "border": 50,
+        "exports": [
+            {"type": "frames", "format": "jpg"}, 
+            {"type": "whole", "format": "png"}
+        ]
     }, 
     "header": {
         "width": 1000,

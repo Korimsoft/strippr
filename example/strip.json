@@ -1,4 +1,7 @@
 {
+    "strip": { 
+        "name" : "hello-strippr" 
+    },
     "header": {
         "title": "Example Comic Strip"
     },

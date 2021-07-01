@@ -1,8 +1,9 @@
-import { Config } from './model/strip-config';
+import { Config } from './model/config';
 import fs from 'fs/promises';
 import { HeaderConfig } from './model/header-config';
 import { FooterConfig } from './model/footer-config';
 import { FrameConfig } from './model/frame-config';
+import { StripConfig } from './model/strip-config';
 
 export class ConfigPreprocessor {
 
@@ -20,6 +21,7 @@ export class ConfigPreprocessor {
         const stripConfig = await this.loadConfig(stripConfigPath);
 
         let outConfig: Config = { ...this.globalConfig };
+        outConfig.strip = this.mergeStrip(stripConfig.strip);
         outConfig.header = this.mergeHeader(stripConfig.header);
         outConfig.footer = this.mergeFooter(stripConfig.footer);
         outConfig.frames = this.mergeFrames(stripConfig.frames);
@@ -33,6 +35,13 @@ export class ConfigPreprocessor {
         return config;
     }
 
+    private mergeStrip(stripConfig: StripConfig): StripConfig {
+        return {
+            ...this.globalConfig.strip,
+            ...stripConfig
+        };
+    }
+
     private mergeHeader(headerConfig: HeaderConfig): HeaderConfig {
         return {
             ...this.globalConfig.header,
@@ -44,10 +53,10 @@ export class ConfigPreprocessor {
         return {
             ...this.globalConfig.footer,
             ...footerConfig
-        }
+        };
     }
 
-    mergeFrames(framesConfig: FrameConfig[]): FrameConfig[] {
+    private mergeFrames(framesConfig: FrameConfig[]): FrameConfig[] {
         return framesConfig.map(f => {
             return {
                 ...this.globalConfig.frames[0],

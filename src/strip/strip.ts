@@ -1,15 +1,16 @@
-import { Config } from '../config/model/strip-config';
+import { Config } from '../config/model/config';
+import { ExportConfig } from '../config/model/strip-config';
 import { StripCompositor } from './compositors/strip-compositor';
+import { ExporterFactory } from './exporters/exporter-factory';
 import { Exporter } from './exporters/exporter';
-import { SingleFrameExporter } from './exporters/single-frame-exporter';
-import { StripExporter}  from './exporters/strip-exporter';
 
-export const strip = async (config: Config, resultFilePath: string): Promise<void> => {
+const exporterFactory = new ExporterFactory();
+
+export const strip = async (config: Config, outDir: string): Promise<void> => {
     let compositor = await new StripCompositor(config).composite();
-        
-    const stripExporter: Exporter = new StripExporter();
-    const singleFrameExporter: Exporter = new SingleFrameExporter();
 
-    await compositor.export(stripExporter, resultFilePath);
-    await compositor.export(singleFrameExporter, resultFilePath);
+    const exporters: Exporter[] = config.strip.exports.map(e => exporterFactory.get(e));
+    const exports: Promise<string>[] = exporters.map(e => compositor.export(e, outDir));
+
+    await Promise.all(exports);
 }

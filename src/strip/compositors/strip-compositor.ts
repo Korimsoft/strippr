@@ -3,7 +3,7 @@ import { composite as compositeFrame } from './frame-compositor';
 import { composite as compositeFooter } from './footer-compositor';
 import Jimp from 'jimp/*';
 import { Exporter } from '../exporters/exporter';
-import { Config } from '../../config/model/strip-config';
+import { Config } from '../../config/model/config';
 import { FrameConfig } from '../../config/model/frame-config';
 
 export class StripCompositor {
@@ -28,7 +28,7 @@ export class StripCompositor {
         return await Promise.all(runningFrameCompositions);
     }
  
-    public export(exporter: Exporter, outPath: string): string {
-        return exporter.export(this.header, this.frames, this.footer, this.config, outPath);
+    public export(exporter: Exporter, outDir: string): Promise<string> {
+        return exporter.export(this.header, this.frames, this.footer, this.config, outDir);
     }
 }

@@ -1,19 +1,25 @@
-import { FooterConfig } from './footer-config';
-import { FrameConfig } from './frame-config';
-import { HeaderConfig } from './header-config';
-
 /**
  * Strip border and dimension config
  */
-export interface StripConfig {
+ export interface StripConfig {
+    name: string;
     bgColor: string;
     border: number;
     scaleTo?: number;
+    exports: ExportConfig[];
 }
 
-export interface Config {
-    strip: StripConfig;
-    header: HeaderConfig;
-    frames: FrameConfig[];
-    footer: FooterConfig;
+export interface ExportConfig {
+    type: ExporterType;
+    format: ImageFormat
+}
+
+export enum ExporterType {
+    whole='whole',
+    frames='frames'
+}
+
+export enum ImageFormat {
+    png='png',
+    jpg='jpg'
 }
