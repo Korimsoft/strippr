@@ -5,6 +5,7 @@ import { HeaderConfig } from './model/header-config';
 import { FooterConfig } from './model/footer-config';
 import { FrameConfig } from './model/frame-config';
 import { StripConfig } from './model/strip-config';
+import { exit } from 'yargs';
 
 export class ConfigPreprocessor {
 
@@ -31,9 +32,13 @@ export class ConfigPreprocessor {
     }
 
     private async loadConfig(configPath: string): Promise<Config> {
-        const configJson: string = (await fs.readFile(configPath)).toString();
-        const config = JSON.parse(configJson) as Config;
-        return config;
+        try {
+            const configJson: string = (await fs.readFile(configPath)).toString();
+            return JSON.parse(configJson) as Config;
+        } catch (error) {
+            console.error(`Could not load ${configPath}, make sure the file exists.`);
+            exit(1, error);
+        }
     }
 
     private preprocessStrip(stripConfig: StripConfig): StripConfig {
@@ -48,7 +53,7 @@ export class ConfigPreprocessor {
             ...this.globalConfig.header,
             ...headerConfig
         };
-        
+
         outHeaderConfig.font = this.preprocessPath(outHeaderConfig.font);
 
         return outHeaderConfig;

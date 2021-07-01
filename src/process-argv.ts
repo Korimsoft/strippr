@@ -9,13 +9,15 @@ export const processArgv = async (argv: string[]) => {
 
     return yargs(argv.slice(2))
     .option('in', {
-        alias:'in',
+        alias:'i',
         type: 'string',
-        describe: 'Input configuration file path'
+        demandOption: true,
+        describe: 'Input configuration file path.'
     }).option('out', {
-        alias:'out',
+        alias:'o',
         type: 'string',
-        describe: 'Output file path.'
+        default: process.cwd(),
+        describe: 'Output directory.'
     })
     .argv;
 }
