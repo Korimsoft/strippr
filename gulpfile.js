@@ -1,9 +1,13 @@
 const {src, dest} = require('gulp');
 const ts = require('gulp-typescript');
 const sourcemaps = require('gulp-sourcemaps');
-const { parallel } = require('gulp');
+const { parallel, series } = require('gulp');
+const chmod = require('gulp-chmod');
 
 const paths = {
+    mainfile: {
+        dest: 'dist/main.js'
+    },
     scripts: { 
         src: 'src/**/*.ts', 
         dest: 'dist/'},
@@ -11,7 +15,7 @@ const paths = {
         src: 'resources/config/global-config.json', 
         dest: 'dist/resources/config' },
     fonts: { 
-        src: 'resources/fonts/**/*{.fnt, .png}', 
+        src: 'resources/fonts/**/*.{fnt,png}', 
         dest: 'dist/resources/fonts/' },
     sourcemaps: {
         dest: 'sourcemaps'
@@ -28,6 +32,10 @@ function buildTS() {
         .pipe(dest(paths.scripts.dest));
 }
 
+function mainFileExecutable() {
+   return src(paths.mainfile.dest).pipe(chmod(0x544));
+}
+
 function copyConfig() {
     return src(paths.config.src).pipe(dest(paths.config.dest));
 }
@@ -36,4 +44,4 @@ function copyFonts() {
     return src(paths.fonts.src).pipe(dest(paths.fonts.dest));
 }
 
-exports.dev = parallel(buildTS, copyFonts, copyConfig);
+exports.dev = parallel(series(buildTS, mainFileExecutable), copyFonts, copyConfig);

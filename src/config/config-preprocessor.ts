@@ -1,5 +1,6 @@
-import { Config } from './model/config';
 import fs from 'fs/promises';
+import path from 'path';
+import { Config } from './model/config';
 import { HeaderConfig } from './model/header-config';
 import { FooterConfig } from './model/footer-config';
 import { FrameConfig } from './model/frame-config';
@@ -21,10 +22,10 @@ export class ConfigPreprocessor {
         const stripConfig = await this.loadConfig(stripConfigPath);
 
         let outConfig: Config = { ...this.globalConfig };
-        outConfig.strip = this.mergeStrip(stripConfig.strip);
-        outConfig.header = this.mergeHeader(stripConfig.header);
-        outConfig.footer = this.mergeFooter(stripConfig.footer);
-        outConfig.frames = this.mergeFrames(stripConfig.frames);
+        outConfig.strip = this.preprocessStrip(stripConfig.strip);
+        outConfig.header = this.preprocessHeader(stripConfig.header);
+        outConfig.footer = this.preprocessFooter(stripConfig.footer);
+        outConfig.frames = this.preprocessFrames(stripConfig.frames);
 
         return outConfig;
     }
@@ -35,41 +36,51 @@ export class ConfigPreprocessor {
         return config;
     }
 
-    private mergeStrip(stripConfig: StripConfig): StripConfig {
+    private preprocessStrip(stripConfig: StripConfig): StripConfig {
         return {
             ...this.globalConfig.strip,
             ...stripConfig
         };
     }
 
-    private mergeHeader(headerConfig: HeaderConfig): HeaderConfig {
-        return {
+    private preprocessHeader(headerConfig: HeaderConfig): HeaderConfig {
+        const outHeaderConfig = {
             ...this.globalConfig.header,
             ...headerConfig
         };
+        
+        outHeaderConfig.font = this.preprocessPath(outHeaderConfig.font);
+
+        return outHeaderConfig;
     }
 
-    private mergeFooter(footerConfig: FooterConfig): FooterConfig {
-        return {
+    private preprocessFooter(footerConfig: FooterConfig): FooterConfig {
+        const outFooterConfig = {
             ...this.globalConfig.footer,
             ...footerConfig
         };
+        outFooterConfig.font = this.preprocessPath(outFooterConfig.font);
+
+        return outFooterConfig;
     }
 
-    private mergeFrames(framesConfig: FrameConfig[]): FrameConfig[] {
+    private preprocessFrames(framesConfig: FrameConfig[]): FrameConfig[] {
         return framesConfig.map(f => {
             return {
                 ...this.globalConfig.frames[0],
                 ...f
             }
         }).map(f => {
-            const withUpdatedSrc = { ...f };
-            withUpdatedSrc.src = this.preprocessPath(f.src);
-            return withUpdatedSrc;
+            const withUpdatedPaths = { ...f };
+            withUpdatedPaths.src = this.preprocessPath(f.src);
+            withUpdatedPaths.font = this.preprocessPath(f.font);
+            return withUpdatedPaths;
         });
     }
 
-    private preprocessPath(path: string): string {
-        return path.replace('{workingdir}', process.cwd());
+    private preprocessPath(rawPath: string): string {
+        return rawPath
+            .replace('{workingdir}', process.cwd())
+            .replace('{programdir}', path.resolve(__dirname, '..'));
     }
 }

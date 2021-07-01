@@ -12,20 +12,20 @@
         "height": 100,
         "padding": 20,
         "bgColor": "#000000",
-        "font":"resources/fonts/typewriter/typewriter-w-64.fnt"
+        "font":"{programdir}/resources/fonts/typewriter/typewriter-w-64.fnt"
     },
     "frames": [{
         "width": 1000,
         "height": 1000,
         "padding": 50,
         "bgColor": "#ffffff",
-        "font": "resources/fonts/typewriter/typewriter-b-64.fnt"
+        "font": "{programdir}/resources/fonts/typewriter/typewriter-b-64.fnt"
     }],
      "footer": {
          "width": 1000,
          "height": 100,
          "padding": 20,
          "bgColor": "#000000",
-         "font":"resources/fonts/typewriter/typewriter-w-48.fnt"
+         "font":"{programdir}/resources/fonts/typewriter/typewriter-w-48.fnt"
      }
 }
