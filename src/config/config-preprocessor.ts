@@ -5,12 +5,13 @@ import { HeaderConfig } from './model/header-config';
 import { FooterConfig } from './model/footer-config';
 import { FrameConfig } from './model/frame-config';
 import { StripConfig } from './model/strip-config';
+import { ConfigValidator } from './config-validator';
 
 export class ConfigPreprocessor {
 
     private globalConfig: Config = null;
 
-    constructor(private globalConfigPath) {
+    constructor(private globalConfigPath, private configValidator: ConfigValidator) {
 
     }
 
@@ -27,8 +28,11 @@ export class ConfigPreprocessor {
         outConfig.footer = this.preprocessFooter(stripConfig.footer);
         outConfig.frames = this.preprocessFrames(stripConfig.frames);
 
+        this.configValidator.validate(outConfig);
+
         return outConfig;
     }
+    
 
     private async loadConfig(configPath: string): Promise<Config> {
         try {
