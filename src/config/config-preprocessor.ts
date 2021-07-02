@@ -6,6 +6,7 @@ import { FooterConfig } from './model/footer-config';
 import { FrameConfig } from './model/frame-config';
 import { StripConfig } from './model/strip-config';
 import { ConfigValidator } from './config-validator';
+import { ErrorCode } from '../error-code';
 
 export class ConfigPreprocessor {
 
@@ -40,7 +41,7 @@ export class ConfigPreprocessor {
             return JSON.parse(configJson) as Config;
         } catch (error) {
             console.error(`Could not load ${configPath}, make sure the file exists and is in correct format.`);
-            process.exit(1);
+            throw new Error(ErrorCode.fileNotFound);
         }
     }
 
