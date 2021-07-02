@@ -32,7 +32,7 @@ Specified by the `--in` argument.
 ### Configuration Options
 
 Configuration options are described by TypescriptFiles in the `src/config/model` location.
-For paths, special shortcuts may be used to define program or strip config directory file. These are `{programdir}` and `{workingdir}`.
+For paths, special shortcuts may be used to define program or strip config directory file. These are `{programdir}` that results to the program root directory and `{workingdir}` which results to the current working directory (_process.cwd()_).
 
 ### Custom Fonts
 
