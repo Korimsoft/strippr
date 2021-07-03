@@ -1,0 +1,29 @@
+{
+    "strip": { 
+        "name" : "hello-strippr" 
+    },
+    "header": {
+        "title": "Example Comic Strip"
+    },
+    "frames": [
+        {
+            "src": "{workingdir}/example/img/parrot.png",
+            "position": "left",
+            "text": "Příliš žluťoučký kůň má úd: Hello! Have you heard of Strippr?"
+        },
+        {
+            "src": "{workingdir}/example/img/seagull.png",
+            "position": "right",
+            "text": "Nope. Tell me more!"
+        },
+        {
+            "src": "{workingdir}/example/img/parrot.png",
+            "position": "left",
+            "text": "See for yourself: https://github.com/ korimsoft/strippr"
+        }
+    ],
+    "footer": {
+        "author": "Made by Korimsoft",
+        "date": "2021-06-22"
+    }
+}

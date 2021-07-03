@@ -19,6 +19,9 @@ const paths = {
         dest: 'dist/resources/fonts/' },
     sourcemaps: {
         dest: 'sourcemaps'
+    },
+    tests: {
+        src: 'test/**/*.spec.ts'
     }
 }
 
