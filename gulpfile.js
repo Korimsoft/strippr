@@ -6,22 +6,22 @@ const chmod = require('gulp-chmod');
 
 const paths = {
     mainfile: {
-        dest: 'dist/main.js'
+        dest: './dist/main.js'
     },
     scripts: { 
         src: 'src/**/*.ts', 
-        dest: 'dist/'},
+        dest: './dist/'},
     config: { 
-        src: 'resources/config/global-config.json', 
-        dest: 'dist/resources/config' },
+        src: './resources/config/global-config.json', 
+        dest: './dist/resources/config' },
     fonts: { 
-        src: 'resources/fonts/**/*.{fnt,png}', 
-        dest: 'dist/resources/fonts/' },
+        src: './resources/fonts/**/*.{fnt,png}', 
+        dest: './dist/resources/fonts/' },
     sourcemaps: {
-        dest: 'sourcemaps'
+        dest: './sourcemaps'
     },
     tests: {
-        src: 'test/**/*.spec.ts'
+        src: './test/**/*.spec.ts'
     }
 }
 
