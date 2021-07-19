@@ -31,6 +31,9 @@
     "jimp": "^0.16.1",
     "yargs": "^17.0.1"
   },
+  "engines": {
+    "node": ">= 14.0.0"
+  },
   "devDependencies": {
     "@types/chai": "^4.2.19",
     "@types/jimp": "^0.2.28",
