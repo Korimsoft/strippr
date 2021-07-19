@@ -47,7 +47,9 @@ function copyFonts() {
     return src(paths.fonts.src).pipe(dest(paths.fonts.dest));
 }
 
-const dev = parallel(series(buildTS, mainFileExecutable), copyFonts, copyConfig);
+const build = parallel(series(buildTS, mainFileExecutable), copyFonts, copyConfig);
+const test = cb => cb();
 
-exports.dev = dev;
-exports.default = exports.dev;
+exports.test = test;
+exports.build = build;
+exports.default = exports.build;

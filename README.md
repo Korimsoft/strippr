@@ -9,7 +9,7 @@ $ strippr --in example/strip.json --out myoutputdirectory
 ## Building the Project
 
 Gulp is used as a build automation tool.
-For development, use `gulp dev` to build the source code with sourcemaps.
+Use `gulp build` to build the source code with sourcemaps.
 
 ## Command Line Arguments
 * `--in`: an input strip configuration file

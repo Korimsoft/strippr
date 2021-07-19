@@ -2,10 +2,10 @@
   "name": "strippr",
   "version": "1.0.0",
   "description": "Comic strip generator - transform a simple JSON config and several source images into a comic strip",
-  "main": "src/main.js",
+  "main": "dist/main.js",
   "scripts": {
-    "build": "npx gulp dev",
-    "test": "mocha -r ts-node/register test/**/*.spec.ts"
+    "build": "npx gulp build",
+    "test": "mocha -r ts-node/register tests/**/*.spec.ts"
   },
   "bin": {
     "strippr": "./dist/main.js"
