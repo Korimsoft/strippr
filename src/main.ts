@@ -4,8 +4,9 @@ import { processArgv } from './process-argv';
 import { strip } from './strip/strip';
 import { ConfigPreprocessor } from './config/config-preprocessor';
 import path from 'path';
-import { ConfigValidator } from './config/config-validator';
 import { FileNotFoundError } from './errors/file-not-found';
+import { StripConfigValidator } from './config/validators/strip-config-validator';
+import { ConfigValidatorImpl } from './config/validators/config-validator-impl';
 
 const GLOBAL_CONFIG_PATH = path.resolve(__dirname, 'resources', 'config', 'global-config.json');
 
@@ -13,7 +14,7 @@ processArgv(process.argv).then(async argv => {
     
     try {
         const stripConfigPath = argv.in as string;
-        const configValidator = new ConfigValidator();
+        const configValidator = new ConfigValidatorImpl(new StripConfigValidator());
         const configPreprocessor = new ConfigPreprocessor(GLOBAL_CONFIG_PATH, configValidator);
         const stripConfig =  await configPreprocessor.preprocessConfig(stripConfigPath);    
         strip(stripConfig, argv.out as string);

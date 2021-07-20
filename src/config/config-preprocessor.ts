@@ -5,7 +5,7 @@ import { HeaderConfig } from './model/header-config';
 import { FooterConfig } from './model/footer-config';
 import { FrameConfig } from './model/frame-config';
 import { StripConfig } from './model/strip-config';
-import { ConfigValidator } from './config-validator';
+import { ConfigValidator } from './validators/config-validator';
 import { FileNotFoundError } from '../errors/file-not-found';
 
 export class ConfigPreprocessor {

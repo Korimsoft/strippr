@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import path from 'path';
 import { ConfigPreprocessor } from '../../src/config/config-preprocessor';
-import { ConfigValidator } from '../../src/config/config-validator';
+import { ConfigValidator } from '../../src/config/validators/config-validator';
 import { Config } from '../../src/config/model/config';
 
 describe('ConfigPreprocessor', ()=> {
@@ -11,7 +11,7 @@ describe('ConfigPreprocessor', ()=> {
     const falseStripFile = 'stripnot.json';
 
     const configValidatorMock: ConfigValidator = {
-        validate: (config: Config) => {}
+        validate: (config: Config): void  => {}
     }
 
     it('Should fail on not existing global config file', async ()=> {
