@@ -4,8 +4,14 @@
   "description": "Comic strip generator - transform a simple JSON config and several source images into a comic strip",
   "main": "./dist/main.js",
   "scripts": {
-    "build": "npx gulp build",
-    "test": "mocha -r ts-node/register tests/**/*.spec.ts"
+    "test": "mocha -r ts-node/register tests/**/*.spec.ts",
+    "start": "node .",
+    "copy-resources": "copyfiles ./resources/fonts/**/*.{fnt,png} ./dist",
+    "copy-config": "copyfiles ./resources/config/global-config.json ./dist",
+    "compile": "tsc --project ./",
+    "build": "npm-run-all compile test copy-resources copy-config",
+    "dev:start": "npm-run-all test",
+    "dev": "nodemon --watch ./src -e ts --exec npm run dev:start"
   },
   "bin": {
     "strippr": "./dist/main.js"
@@ -41,11 +47,12 @@
     "@types/node": "^15.12.4",
     "@types/yargs": "^17.0.0",
     "chai": "^4.3.4",
-    "gulp": "^4.0.2",
+    "copyfiles": "^2.4.1",
     "gulp-chmod": "^3.0.0",
     "gulp-sourcemaps": "^3.0.0",
     "gulp-typescript": "^6.0.0-alpha.1",
     "mocha": "^9.0.1",
+    "npm-run-all": "^4.1.5",
     "ts-node": "^10.0.0",
     "typescript": "^4.3.4"
   }
