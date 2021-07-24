@@ -1,6 +1,3 @@
-/**
- * Strip border and dimension config
- */
  export interface StripConfig {
     name: string;
     bgColor: string;

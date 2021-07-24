@@ -9,8 +9,8 @@
     "copy-resources": "copyfiles ./resources/fonts/**/*.{fnt,png} ./dist",
     "copy-config": "copyfiles ./resources/config/global-config.json ./dist",
     "compile": "tsc --project ./",
-    "build": "npm-run-all compile test copy-resources copy-config",
-    "dev:start": "npm-run-all test",
+    "build": "npm-run-all compile copy-resources copy-config",
+    "dev:start": "npm run test",
     "dev": "nodemon --watch ./src -e ts --exec npm run dev:start"
   },
   "bin": {
