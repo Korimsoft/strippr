@@ -7,6 +7,7 @@ import path from 'path';
 import { FileNotFoundError } from './errors/file-not-found';
 import { StripConfigValidator } from './config/validators/strip-config-validator';
 import { ConfigValidatorImpl } from './config/validators/config-validator-impl';
+import { HeaderConfigValidator } from './config/validators/header-config-validator';
 
 const GLOBAL_CONFIG_PATH = path.resolve(__dirname, 'resources', 'config', 'global-config.json');
 
@@ -14,7 +15,12 @@ processArgv(process.argv).then(async argv => {
     
     try {
         const stripConfigPath = argv.in as string;
-        const configValidator = new ConfigValidatorImpl(new StripConfigValidator());
+        
+        const configValidator = new ConfigValidatorImpl(
+                new StripConfigValidator(), 
+                new HeaderConfigValidator()
+            );
+
         const configPreprocessor = new ConfigPreprocessor(GLOBAL_CONFIG_PATH, configValidator);
         const stripConfig =  await configPreprocessor.preprocessConfig(stripConfigPath);    
         strip(stripConfig, argv.out as string);
