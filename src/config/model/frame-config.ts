@@ -10,7 +10,7 @@ export enum Position {
 export interface FrameConfig extends ComponentConfig {
     src: string;
     position: Position;
-    text: string;
+    text: string | string[];
     width: number,
     height: number,
     padding: number,

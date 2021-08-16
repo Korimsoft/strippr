@@ -3,14 +3,24 @@ import { FrameConfig, Position } from '../../config/model/frame-config';
 
 const drawText = async (config: FrameConfig, frame: Jimp) => {
     const font = await Jimp.loadFont(config.font);
-    const x = config.padding;
-    const y = config.padding;
+    const startX = config.padding;
+    const startY = config.padding;
     const maxWidth = config.width - config.padding;
     const maxHeight = config.height - config.padding;
+    let frameWithText = frame;
 
-    return frame.print(font, x, y, config.text, maxWidth, maxHeight);
+    if(typeof(config.text) === 'string'){
+        frameWithText = frame.print(font, startX, startY, config.text, maxWidth, maxHeight);    
+    } else {
+        let nextLineOffset = 0;
+        (config.text as string[]).forEach(line => {
+            frameWithText = frameWithText.print(font, startX, startY + nextLineOffset, line, maxWidth, maxHeight - nextLineOffset);
+            nextLineOffset += Jimp.measureTextHeight(font, line, maxWidth);
+        });
+    }
+
+    return frameWithText;
 };
-
 
 const calculateAlignment = (position: Position, imageWidth: number, backgroundWidth: number) => {
     switch (position) {

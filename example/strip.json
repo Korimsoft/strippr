@@ -14,7 +14,11 @@
         {
             "src": "{workingdir}/example/img/seagull.png",
             "position": "right",
-            "text": "Nope. Tell me more!"
+            "text": [
+                "Nope. Tell me more!", 
+                "Tell! Tell! Tell! Tell! Tell! Tell! Tell!",
+                "Or not, whatever."
+            ]
         },
         {
             "src": "{workingdir}/example/img/parrot.png",

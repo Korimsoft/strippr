@@ -18,12 +18,12 @@ If this argument is omitted, pictures are exported into the current working dire
 
 ## Configuration
 
-The comic strip is generated from a combination of 2 files: A global configuration file and a strip configuration file.
+Comic strips are generated from a combination of 2 files: A global configuration file and a strip configuration file.
 Options specified in the strip configuration file take precedence before the options stated in the global configuration file.
 
 ### Global Configuration
 
-Located in resources/config/global-config.json
+Located in resources/config/global-config.json, the global configuration file contains default values for the generator, e.g. frame background color, frame border, etc.
 
 ### Strip Configuration
 
@@ -31,7 +31,7 @@ Specified by the `--in` argument.
 
 ### Configuration Options
 
-Configuration options are described by TypescriptFiles in the `src/config/model` location.
+Configuration options are described by TypeScript files in the `src/config/model` location.
 For paths, special shortcuts may be used to define program or strip config directory file. These are `{programdir}` that results to the program root directory and `{workingdir}` which results to the current working directory (_process.cwd()_).
 
 ### Custom Fonts
